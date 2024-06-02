@@ -17,7 +17,9 @@ app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 app.use('/api/products', productsRoutes);
 
 mongoose
-    .connect('mongodb+srv://<username>:<password>@cloud9-cluster.evgsukn.mongodb.net/?retryWrites=true&w=majority&appName=cloud9-cluster')
+    .connect(
+        `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cloud9-cluster.evgsukn.mongodb.net/?retryWrites=true&w=majority&appName=cloud9-cluster`
+    )
     .then(() => {
         app.listen(5000);
     }).
