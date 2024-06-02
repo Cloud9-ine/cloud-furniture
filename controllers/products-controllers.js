@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const HttpError = require('../models/http-error');
 const Product = require('../models/product');
 
@@ -55,7 +57,7 @@ const createProduct = async (req, res, next) => {
         posted_date: `${curr_date.getFullYear()}/${curr_date.getMonth()+1}/${curr_date.getDate()}`,
         available_date,
         tags,
-        images
+        images: [req.file.path]
     });
 
     try {
@@ -134,6 +136,8 @@ const deleteProduct = async (req, res, next) => {
         ));
     }
 
+    const imagesPaths = product.images;
+
     try {
         await product.deleteOne();
     } catch (err) {
@@ -142,6 +146,12 @@ const deleteProduct = async (req, res, next) => {
             500
         ));
     }
+
+    imagesPaths.map((path) => {
+        fs.unlink(path, err => {
+            console.log(err);
+        });
+    });
 
     res.status(200).json({message: `Place ${pid} deleted.`});
 }
