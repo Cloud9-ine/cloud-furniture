@@ -11,8 +11,8 @@ router.get('/', productsControllers.getAllProducts);
 router.get('/:pid', productsControllers.getProductById);
 
 router.post(
-    '/', 
-    fileUpload.single('image'),
+    '/',
+    fileUpload.array('images', 5),
     productsControllers.createProduct
 );
 
