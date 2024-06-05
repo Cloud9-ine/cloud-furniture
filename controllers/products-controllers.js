@@ -46,7 +46,7 @@ const getProductById = async (req, res, next) => {
 }
 
 const createProduct = async (req, res, next) => {
-    const { name, description, price, quantity, available_date, tags, images } = req.body;
+    const { name, description, price, quantity, available_date, tags } = req.body;
 
     const curr_date = new Date();
     const newProduct = new Product({
@@ -57,7 +57,7 @@ const createProduct = async (req, res, next) => {
         posted_date: `${curr_date.getFullYear()}/${curr_date.getMonth()+1}/${curr_date.getDate()}`,
         available_date,
         tags,
-        images: [req.file.path]
+        images: req.files.map(f => f.path)
     });
 
     try {
